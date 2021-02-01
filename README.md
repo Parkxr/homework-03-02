@@ -1,4 +1,4 @@
-#####1、请简述 Vue 首次渲染的过程。
+##### 1、请简述 Vue 首次渲染的过程。
 
 答：
 1）在渲染之前，Vue 会先初始化，初始化实例成员和静态成员。
@@ -25,7 +25,7 @@
 
 new Vue()-->\_init()-->vm.$mount()-->compileToFunction()-->mountComponent()-->触发 beforemount-->updateComponent()-->watch-->vm.\_render-->vm.\_update.
 
-#####2、请简述 Vue 响应式原理。
+##### 2、请简述 Vue 响应式原理。
 
 答：
 
@@ -43,13 +43,11 @@ new Vue()-->\_init()-->vm.$mount()-->compileToFunction()-->mountComponent()-->�
 6）对象的响应式处理，就是如果 value 是对象的话，那此时会调用 walk()方法，walk()方法就是遍历这个对象的所有的属性，对每一个属性调用 defineReactive。
 在 defineReactive 中，会对每一个属性创建 dep 对象，让 dep 去收集依赖，如果当前属性的值是对象的话，会调用 observe，要把这个对象也转化为响应式的对象。
 
-7）
-在 defineReactive 中首先创建了一个 Dep 对象， 这个 Dep 对象是为当前这个属性收集依赖，也就是收集观察当前这个属性的所有 watcher。
+7）在 defineReactive 中首先创建了一个 Dep 对象， 这个 Dep 对象是为当前这个属性收集依赖，也就是收集观察当前这个属性的所有 watcher。
 然后通过 getOwnPropertyDescriptor(obj,key)来获取当前属性的属性描述符，判断属性描述符里的 configurable 是否是 false，如果是 false，说明当前属性是不可配置的，说明当前这个属性不能被 delete 删除，还不可以通过 Object.defineProperty 重新定义， 因为接下来需要通过 Object.defineProperty 重新给这个属性定义属性描述符，所以他不可配置则直接返回。
-
-     在defineReactive中最核心的是定义getter和setter。
-     在getter里收集依赖，收集依赖的时候要为每一个属性收集依赖，如果这个属性的值是对象，那么她也要为这个子对象收集依赖，在getter里面最终返回该属性的值。
-     在setter里面，首先先把新值保存下来，如果新值是对象的话也要调用observe，也要把新设置的对象也转化为响应式的对象。在setter里面数据发生了变化，所以要发送通知，发送通知其实就是调用dep.notify()方法。
+在 defineReactive 中最核心的是定义 getter 和 setter。
+在 getter 里收集依赖，收集依赖的时候要为每一个属性收集依赖，如果这个属性的值是对象，那么她也要为这个子对象收集依赖，在 getter 里面最终返回该属性的值。
+在 setter 里面，首先先把新值保存下来，如果新值是对象的话也要调用 observe，也要把新设置的对象也转化为响应式的对象。在 setter 里面数据发生了变化，所以要发送通知，发送通知其实就是调用 dep.notify()方法。
 
 8）收集依赖的过程，收集依赖的时候首先执行 watcher 对象里的 get()方法。
 在 get()方法中会调用 pushTarget，在 pushTarget 中会把当前的 watcher 对象记录到 Dep.target 属性中，然后在访问 data 成员属性的时候去收集依赖，在这个时候， 当我们访问这个属性的值得时候就会触发 defineReactive 中的 getter，在 getter 中回去收集依赖， 他会把属性对应的 watcher，添加到 dep 的 subs 数组中， 也就是为属性收集依赖，
@@ -67,12 +65,12 @@ watcher.run()运行完成之后，其实就把数据更新到了视图上， 在
 
 12）最后触发 updated 钩子函数。
 
-#####3、请简述虚拟 DOM 中 Key 的作用和好处。
+##### 3、请简述虚拟 DOM 中 Key 的作用和好处。
 
 答：
 key 的作用和好处是给虚拟 Dom（Vnode）提供索引，进行删除、添加等操作时更加快捷。通过设置不同的 key，可以完整地触发组件的生命周期钩子和触发过渡。可以帮助我们快速对比两个虚拟 dom 对象，找到虚拟 dom 对象被修改的元素，然后仅仅替换掉被修改的元素，然后再生成新的真实 dom。
 
-#####4、请简述 Vue 中模板编译的过程。
+##### 4、请简述 Vue 中模板编译的过程。
 
 答：
 
